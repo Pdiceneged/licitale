@@ -11,9 +11,11 @@ API_KEY = secrets["api_key"]
 SPREADSHEET_ID = secrets["spreadsheet_id"]
 RANGE_NAME = "licit!A1:E"
 
+
 def get_google_sheets_service(api_key):
     service = build("sheets", "v4", developerKey=api_key)
     return service
+
 
 def read_sheet_data(sheet_service, spreadsheet_id, range):
     try:
@@ -23,6 +25,7 @@ def read_sheet_data(sheet_service, spreadsheet_id, range):
     except HttpError as e:
         st.error(f"Erro ao acessar a planilha: {e}")
         return None
+
 
 def time_until_due(uf, número, cliente, prazo, observações):
     try:
@@ -59,9 +62,10 @@ def time_until_due(uf, número, cliente, prazo, observações):
         st.error(f"Erro ao calcular tempo restante para {uf} {número}: {e}")
         return None
 
+
 def display_alert(days, hours, minutes):
     if days is not None and days == 0 and hours <= 24:
-        st.error("🚨 Urgente! Restam menos de 24h para o fim prazo!🙅‍♂️cuida")
+        st.error("🚨 Urgente! Restam menos de 24h para o fim prazo!")
     elif days is not None and days < 3 and (hours * 3600 + minutes * 60) <= 23 * 3600:
         st.warning("⚠️ Atenção! Menos de 3 dias restantes para o fim do prazo!")
 
@@ -73,7 +77,8 @@ def format_time_until_due(days, hours, minutes):
 
     return f"{formatted_days}{formatted_hours}{formatted_minutes}"
 
-st.title("ÓHH o Prazo mah!!😡🙅‍♂️")
+st.image("kkk.png", width=350, use_column_width=False)
+st.title("Licitações")
 
 sheet_service = get_google_sheets_service(API_KEY)
 
@@ -102,3 +107,6 @@ if data:
 
                 # Display alerts based on the remaining time gh
                 display_alert(days, hours, minutes)
+
+    st.markdown("---")
+    st.markdown("Desenvolvido por [PedroFS](https://linktr.ee/Pedrofsf)")
