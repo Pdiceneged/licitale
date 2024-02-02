@@ -1,9 +1,45 @@
 import streamlit as st
+import base64
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from datetime import datetime, timedelta
 from dateutil import parser
 import pytz
+
+st.set_page_config(
+    page_title="Prazo Licitações",
+    page_icon="📝"
+)
+@st.cache_data()
+def get_img_as_base64(file):
+    with open(file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+img = get_img_as_base64("fundocontrat5.png")
+
+page_bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] > .main {{
+    background-image: url("data:fundoesg4k/png;base64,{img}");
+    background-size: 100%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}}
+
+[data-testid="stHeader"] {{
+    background: rgba(0,0,0,0);
+}}
+
+[data-testid="stToolbar"] {{
+    right: 2rem;
+}}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 
 secrets = st.secrets["google"]
 
